@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Releases {
+public class Release {
 
     @Id
     @Column( name = "release_id")

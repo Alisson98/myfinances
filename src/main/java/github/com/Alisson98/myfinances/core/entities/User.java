@@ -1,16 +1,12 @@
 package github.com.Alisson98.myfinances.core.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table( name = "user", schema = "finances")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     @Id
     @Column( name = "id")
