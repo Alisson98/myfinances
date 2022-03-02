@@ -1,19 +1,15 @@
 package github.com.Alisson98.myfinances.core.use_case;
 
-import github.com.Alisson98.myfinances.adapter.web.exception.BusinessRuleException;
+import github.com.Alisson98.myfinances.adapter.web.exception.EmailAlreadyRegisteredException;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -51,7 +47,7 @@ class EmailUserValidationUseCaseTest {
             String mockedEmail = "email@mock.com";
             when(userRepository.existsByEmail(mockedEmail)).thenReturn(false);
 
-            assertThrows(BusinessRuleException.class, () -> emailUserValidationUseCase.execute(mockedEmail));
+            assertThrows(EmailAlreadyRegisteredException.class, () -> emailUserValidationUseCase.execute(mockedEmail));
         }
     }
 
