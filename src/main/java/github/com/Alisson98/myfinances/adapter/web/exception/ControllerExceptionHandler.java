@@ -10,10 +10,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
-    public ResponseEntity<StandardErrorDto> resourceNotFoundException(EmailAlreadyRegisteredException e) {
+    public ResponseEntity<StandardErrorDto> emailAlreadyRegisteredException(EmailAlreadyRegisteredException e) {
         StandardErrorDto standardError = new StandardErrorDto(
                 HttpStatus.BAD_REQUEST.value()
                 , e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+    }
+
+    @ExceptionHandler(AuthenticateErrorException.class)
+    public ResponseEntity<StandardErrorDto> authenticateErrorException(AuthenticateErrorException e) {
+        StandardErrorDto standardError = new StandardErrorDto(
+                HttpStatus.FORBIDDEN.value()
+                , e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standardError);
     }
 }
