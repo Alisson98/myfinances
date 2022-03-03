@@ -13,10 +13,11 @@ public class EmailUserValidationUseCase {
         this.repository = repository;
     }
 
-    public void execute(String email){
+    public boolean execute(String email){
         if(!(repository.existsByEmail(email))) {
             throw new EmailAlreadyRegisteredException("There is already a user registered with this email");
         }
+        return true;
 
     }
 }

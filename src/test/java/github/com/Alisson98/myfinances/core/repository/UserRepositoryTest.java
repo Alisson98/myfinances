@@ -2,12 +2,15 @@ package github.com.Alisson98.myfinances.core.repository;
 
 
 import github.com.Alisson98.myfinances.core.entities.User;
-import github.com.Alisson98.myfinances.core.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Replace;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -15,17 +18,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 class UserRepositoryTest {
 
     @Autowired
     UserRepository repositoryTest;
+
+    @Autowired
+    TestEntityManager entityManager;
     @Test
     void shouldCheckExistenceOfAnEmail() {
         User mockedUser = User.builder().name("mockedUser").email("email@mocked.com").build();
 
-        repositoryTest.save(mockedUser);
+        entityManager.persist(mockedUser);
 
         boolean result = repositoryTest.existsByEmail("email@mocked.com");
 
@@ -34,8 +41,6 @@ class UserRepositoryTest {
 
     @Test
     void shouldReturnAnFalseWhenEmailAlreadyRegistered() {
-        repositoryTest.deleteAll();
-
         boolean result = repositoryTest.existsByEmail("email@mocked.com");
 
         assertFalse(result);

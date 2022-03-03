@@ -21,8 +21,8 @@ public class CreateUserUseCase {
     public User execute(User user){
         logger.info("Saving User with name: {}", user.getName());
         emailUserValidationUseCase.execute(user.getEmail());
-        userRepository.save(user);
+        User savedUSer = userRepository.save(user);
         logger.info("User with name {} saved successfully", user.getName());
-        return user;
+        return savedUSer;
     }
 }
