@@ -6,22 +6,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+@SpringBootTest
 @ActiveProfiles("test")
 class EmailUserValidationUseCaseTest {
 
+    @MockBean
     private UserRepository  userRepository;
     private EmailUserValidationUseCase emailUserValidationUseCase;
 
     @BeforeEach
     void setup() {
-        userRepository = mock(UserRepository.class);
         emailUserValidationUseCase = new EmailUserValidationUseCase(userRepository);
     }
 

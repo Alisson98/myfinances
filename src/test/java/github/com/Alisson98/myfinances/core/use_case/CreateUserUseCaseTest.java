@@ -5,20 +5,25 @@ import github.com.Alisson98.myfinances.core.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class CreateUserUseCaseTest {
 
+    @MockBean
     private UserRepository userRepository;
+    @MockBean
     private EmailUserValidationUseCase emailUserValidationUseCase;
     private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
     void setup() {
-        userRepository = mock(UserRepository.class);
-        emailUserValidationUseCase = mock(EmailUserValidationUseCase.class);
         createUserUseCase = new CreateUserUseCase(userRepository, emailUserValidationUseCase);
     }
 
@@ -39,24 +44,24 @@ class CreateUserUseCaseTest {
             verify(emailUserValidationUseCase, times(1)).execute(mockedUser.getEmail());
         }
 
-    @Test
-    void shouldReturnEntitySaved() {
-        User inputUser = User.builder().
-                id(null).
-                name("mockedName").
-                email("email@mocked.com").
-                password("mockedPassword")
-                .build();
-        User expectedInsertedUser = User.builder().
-                id(2L).
-                name("mockedName").
-                email("email@mocked.com").
-                password("mockedPassword")
-                .build();
-        when(userRepository.save(inputUser)).thenReturn(expectedInsertedUser);
-        when(emailUserValidationUseCase.execute(inputUser.getEmail())).thenReturn(true);
-        User actualInsertedUser = createUserUseCase.execute(inputUser);
-        assertEquals(expectedInsertedUser, actualInsertedUser);
-    }
+        @Test
+        void shouldReturnEntitySaved() {
+            User inputUser = User.builder().
+                    id(null).
+                    name("mockedName").
+                    email("email@mocked.com").
+                    password("mockedPassword")
+                    .build();
+            User expectedInsertedUser = User.builder().
+                    id(2L).
+                    name("mockedName").
+                    email("email@mocked.com").
+                    password("mockedPassword")
+                    .build();
+            when(userRepository.save(inputUser)).thenReturn(expectedInsertedUser);
+            when(emailUserValidationUseCase.execute(inputUser.getEmail())).thenReturn(true);
+            User actualInsertedUser = createUserUseCase.execute(inputUser);
+            assertEquals(expectedInsertedUser, actualInsertedUser);
+        }
     }
 }

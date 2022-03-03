@@ -17,8 +17,16 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
     }
 
-    @ExceptionHandler(AuthenticateErrorException.class)
-    public ResponseEntity<StandardErrorDto> authenticateErrorException(AuthenticateErrorException e) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardErrorDto> resourceNotFoundException(ResourceNotFoundException e) {
+        StandardErrorDto standardError = new StandardErrorDto(
+                HttpStatus.NOT_FOUND.value()
+                , e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<StandardErrorDto> invalidPasswordException(InvalidPasswordException e) {
         StandardErrorDto standardError = new StandardErrorDto(
                 HttpStatus.FORBIDDEN.value()
                 , e.getMessage());
