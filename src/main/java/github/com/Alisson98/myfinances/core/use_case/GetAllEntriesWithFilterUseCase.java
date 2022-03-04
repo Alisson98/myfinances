@@ -13,8 +13,8 @@ import org.springframework.data.domain.ExampleMatcher;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,7 +28,7 @@ public class GetAllEntriesWithFilterUseCase {
     public GetAllEntriesWithFilterUseCase(EntryRepository entryRepository) {
         this.entryRepository = entryRepository;
     }
-    @Transactional
+    @Transactional( readOnly = true)
     public List<Entry> execute(@NotNull Entry filterEntry){
         logger.info("fetching all filtered entries");
         Example<Entry> example = Example.of( filterEntry,

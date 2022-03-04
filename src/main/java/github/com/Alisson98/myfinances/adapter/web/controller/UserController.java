@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -32,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<UserDto> insertUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> insertUser(@Valid @RequestBody UserDto userDto){
         logger.info("Received request to insert user");
         User user = userDtoMapper.userDtoToUser(userDto);
         User insertedUser = createUserUseCase.execute(user);
@@ -43,7 +45,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> authenticateUser(@RequestBody UserDto userDto){
         logger.info("Received request to authenticate user");
-        User user = authenticateUseCase.execute(userDto.email(),userDto.password());
+        User user = authenticateUseCase.execute(userDto.getEmail(),userDto.getPassword());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userDtoMapper.userToUserDto(user));
     }
