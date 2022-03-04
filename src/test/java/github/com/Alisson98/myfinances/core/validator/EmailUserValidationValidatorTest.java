@@ -1,4 +1,4 @@
-package github.com.Alisson98.myfinances.core.use_case;
+package github.com.Alisson98.myfinances.core.validator;
 
 import github.com.Alisson98.myfinances.adapter.web.exception.EmailAlreadyRegisteredException;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
