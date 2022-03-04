@@ -5,7 +5,7 @@ import github.com.Alisson98.myfinances.adapter.web.dto.LoginDto;
 import github.com.Alisson98.myfinances.adapter.web.dto.UserDto;
 import github.com.Alisson98.myfinances.adapter.web.mapper.UserDtoMapper;
 import github.com.Alisson98.myfinances.core.entities.User;
-import github.com.Alisson98.myfinances.core.use_case.AuthenticateUseCase;
+import github.com.Alisson98.myfinances.core.validator.AuthenticateValidator;
 import github.com.Alisson98.myfinances.core.use_case.CreateUserUseCase;
 import github.com.Alisson98.myfinances.core.use_case.GetUserByEmailUseCase;
 import org.slf4j.Logger;
@@ -26,14 +26,14 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final CreateUserUseCase createUserUseCase;
-    private final AuthenticateUseCase authenticateUseCase;
+    private final AuthenticateValidator authenticateValidator;
     private final GetUserByEmailUseCase getUserByEmailUseCase;
     private final UserDtoMapper userDtoMapper;
 
-    public UserController(CreateUserUseCase createUserUseCase,AuthenticateUseCase authenticateUseCase,
+    public UserController(CreateUserUseCase createUserUseCase, AuthenticateValidator authenticateValidator,
                           GetUserByEmailUseCase getUserByEmailUseCase,
                           UserDtoMapper userDtoMapper) {
-        this.authenticateUseCase = authenticateUseCase;
+        this.authenticateValidator = authenticateValidator;
         this.createUserUseCase = createUserUseCase;
         this.getUserByEmailUseCase = getUserByEmailUseCase;
         this.userDtoMapper = userDtoMapper;
@@ -52,7 +52,7 @@ public class UserController {
     public ResponseEntity<UserDto> authenticateUser(@RequestBody LoginDto loginDto){
         logger.info("Received request to authenticate user");
         User user = getUserByEmailUseCase.execute(loginDto.getEmail());
-        authenticateUseCase.execute(user,loginDto.getPassword());
+        authenticateValidator.execute(user,loginDto.getPassword());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userDtoMapper.userToUserDto(user));

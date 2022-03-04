@@ -2,6 +2,7 @@ package github.com.Alisson98.myfinances.core.use_case;
 
 import github.com.Alisson98.myfinances.core.entities.User;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
+import github.com.Alisson98.myfinances.core.validator.EmailUserValidationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,12 @@ class CreateUserUseCaseTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private EmailUserValidationUseCase emailUserValidationUseCase;
+    private EmailUserValidationValidator emailUserValidationValidator;
     private CreateUserUseCase createUserUseCase;
 
     @BeforeEach
     void setup() {
-        createUserUseCase = new CreateUserUseCase(userRepository, emailUserValidationUseCase);
+        createUserUseCase = new CreateUserUseCase(userRepository, emailUserValidationValidator);
     }
 
     @Nested
@@ -41,7 +42,7 @@ class CreateUserUseCaseTest {
             createUserUseCase.execute(mockedUser);
 
             verify(userRepository, times(1)).save(mockedUser);
-            verify(emailUserValidationUseCase, times(1)).execute(mockedUser.getEmail());
+            verify(emailUserValidationValidator, times(1)).execute(mockedUser.getEmail());
         }
 
         @Test
@@ -59,7 +60,7 @@ class CreateUserUseCaseTest {
                     password("mockedPassword")
                     .build();
             when(userRepository.save(inputUser)).thenReturn(expectedInsertedUser);
-            when(emailUserValidationUseCase.execute(inputUser.getEmail())).thenReturn(false);
+            when(emailUserValidationValidator.execute(inputUser.getEmail())).thenReturn(false);
             User actualInsertedUser = createUserUseCase.execute(inputUser);
             assertEquals(expectedInsertedUser, actualInsertedUser);
         }

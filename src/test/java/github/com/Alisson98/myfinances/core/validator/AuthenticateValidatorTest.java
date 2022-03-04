@@ -1,7 +1,8 @@
-package github.com.Alisson98.myfinances.core.use_case;
+package github.com.Alisson98.myfinances.core.validator;
 
 import github.com.Alisson98.myfinances.adapter.web.exception.InvalidPasswordException;
 import github.com.Alisson98.myfinances.core.entities.User;
+import github.com.Alisson98.myfinances.core.validator.AuthenticateValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class AuthenticateUseCaseTest {
+class AuthenticateValidatorTest {
 
-    private AuthenticateUseCase authenticateUseCase;
+    private AuthenticateValidator authenticateValidator;
 
     @BeforeEach
     void setup() {
-        authenticateUseCase = new AuthenticateUseCase();
+        authenticateValidator = new AuthenticateValidator();
     }
 
     @Nested
@@ -36,7 +37,7 @@ class AuthenticateUseCaseTest {
                     password("otherPassword")
                     .build();
 
-            assertThrows(InvalidPasswordException.class, () -> authenticateUseCase.execute(expectedAuthenticatedUser, inputPassword));
+            assertThrows(InvalidPasswordException.class, () -> authenticateValidator.execute(expectedAuthenticatedUser, inputPassword));
         }
     }
 }

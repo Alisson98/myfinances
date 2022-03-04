@@ -1,4 +1,4 @@
-package github.com.Alisson98.myfinances.core.use_case;
+package github.com.Alisson98.myfinances.core.validator;
 
 import github.com.Alisson98.myfinances.adapter.web.exception.InvalidPasswordException;
 import github.com.Alisson98.myfinances.core.entities.User;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AuthenticateUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticateUseCase.class);
+public class AuthenticateValidator {
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticateValidator.class);
 
     public void execute(User user, String receivedPassword) {
         logger.info("Logging the User with id = {}...", user.getId());

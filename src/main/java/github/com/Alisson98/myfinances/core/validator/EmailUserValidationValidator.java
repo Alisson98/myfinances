@@ -1,15 +1,15 @@
-package github.com.Alisson98.myfinances.core.use_case;
+package github.com.Alisson98.myfinances.core.validator;
 
 import github.com.Alisson98.myfinances.adapter.web.exception.EmailAlreadyRegisteredException;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailUserValidationUseCase {
+public class EmailUserValidationValidator {
 
     private final UserRepository repository;
 
-    public EmailUserValidationUseCase(UserRepository repository) {
+    public EmailUserValidationValidator(UserRepository repository) {
         this.repository = repository;
     }
 

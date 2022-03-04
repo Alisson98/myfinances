@@ -2,6 +2,7 @@ package github.com.Alisson98.myfinances.core.use_case;
 
 import github.com.Alisson98.myfinances.adapter.web.exception.EmailAlreadyRegisteredException;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
+import github.com.Alisson98.myfinances.core.validator.EmailUserValidationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,15 +17,15 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class EmailUserValidationUseCaseTest {
+class EmailUserValidationValidatorTest {
 
     @MockBean
     private UserRepository  userRepository;
-    private EmailUserValidationUseCase emailUserValidationUseCase;
+    private EmailUserValidationValidator emailUserValidationValidator;
 
     @BeforeEach
     void setup() {
-        emailUserValidationUseCase = new EmailUserValidationUseCase(userRepository);
+        emailUserValidationValidator = new EmailUserValidationValidator(userRepository);
     }
 
     @Nested
@@ -35,7 +36,7 @@ class EmailUserValidationUseCaseTest {
 
             when(userRepository.existsByEmail(mockedEmail)).thenReturn(false);
 
-            emailUserValidationUseCase.execute(mockedEmail);
+            emailUserValidationValidator.execute(mockedEmail);
 
             verify(userRepository, times(1)).existsByEmail(mockedEmail);
         }
@@ -46,7 +47,7 @@ class EmailUserValidationUseCaseTest {
             String mockedEmail = "email@mock.com";
             when(userRepository.existsByEmail(mockedEmail)).thenReturn(true);
 
-            assertThrows(EmailAlreadyRegisteredException.class, () -> emailUserValidationUseCase.execute(mockedEmail));
+            assertThrows(EmailAlreadyRegisteredException.class, () -> emailUserValidationValidator.execute(mockedEmail));
         }
     }
 
