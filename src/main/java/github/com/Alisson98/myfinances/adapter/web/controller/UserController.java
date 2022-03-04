@@ -1,11 +1,13 @@
 package github.com.Alisson98.myfinances.adapter.web.controller;
 
 
+import github.com.Alisson98.myfinances.adapter.web.dto.LoginDto;
 import github.com.Alisson98.myfinances.adapter.web.dto.UserDto;
 import github.com.Alisson98.myfinances.adapter.web.mapper.UserDtoMapper;
 import github.com.Alisson98.myfinances.core.entities.User;
 import github.com.Alisson98.myfinances.core.use_case.AuthenticateUseCase;
 import github.com.Alisson98.myfinances.core.use_case.CreateUserUseCase;
+import github.com.Alisson98.myfinances.core.use_case.GetUserByEmailUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -24,12 +27,15 @@ public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
     private final AuthenticateUseCase authenticateUseCase;
+    private final GetUserByEmailUseCase getUserByEmailUseCase;
     private final UserDtoMapper userDtoMapper;
 
     public UserController(CreateUserUseCase createUserUseCase,AuthenticateUseCase authenticateUseCase,
+                          GetUserByEmailUseCase getUserByEmailUseCase,
                           UserDtoMapper userDtoMapper) {
         this.authenticateUseCase = authenticateUseCase;
         this.createUserUseCase = createUserUseCase;
+        this.getUserByEmailUseCase = getUserByEmailUseCase;
         this.userDtoMapper = userDtoMapper;
     }
 
@@ -43,9 +49,11 @@ public class UserController {
                 .body(userDtoMapper.userToUserDto(insertedUser));
     }
     @PostMapping("/login")
-    public ResponseEntity<UserDto> authenticateUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> authenticateUser(@RequestBody LoginDto loginDto){
         logger.info("Received request to authenticate user");
-        User user = authenticateUseCase.execute(userDto.getEmail(),userDto.getPassword());
+        User user = getUserByEmailUseCase.execute(loginDto.getEmail());
+        authenticateUseCase.execute(user,loginDto.getPassword());
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userDtoMapper.userToUserDto(user));
     }

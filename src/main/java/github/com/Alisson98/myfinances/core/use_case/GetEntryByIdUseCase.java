@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class GetByIDEntryUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(GetByIDEntryUseCase.class);
+public class GetEntryByIdUseCase {
+    private static final Logger logger = LoggerFactory.getLogger(GetEntryByIdUseCase.class);
 
     private final EntryRepository entryRepository;
 
-    public GetByIDEntryUseCase(EntryRepository entryRepository) {
+    public GetEntryByIdUseCase(EntryRepository entryRepository) {
         this.entryRepository = entryRepository;
     }
 
     public Entry execute (Long entryId) {
         logger.info("Fetching entry with id = {}...", entryId);
-        Optional<Entry> user = entryRepository.findById(entryId);
-        return user.orElseThrow(() -> new ResourceNotFoundException("Resource with id %s not found".formatted(entryId)));
+        Optional<Entry> entry = entryRepository.findById(entryId);
+        return entry.orElseThrow(() -> new ResourceNotFoundException("Resource with id %s not found".formatted(entryId)));
     }
 }
