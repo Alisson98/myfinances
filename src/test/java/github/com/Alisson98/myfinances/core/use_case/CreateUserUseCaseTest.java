@@ -59,7 +59,7 @@ class CreateUserUseCaseTest {
                     password("mockedPassword")
                     .build();
             when(userRepository.save(inputUser)).thenReturn(expectedInsertedUser);
-            when(emailUserValidationUseCase.execute(inputUser.getEmail())).thenReturn(true);
+            when(emailUserValidationUseCase.execute(inputUser.getEmail())).thenReturn(false);
             User actualInsertedUser = createUserUseCase.execute(inputUser);
             assertEquals(expectedInsertedUser, actualInsertedUser);
         }

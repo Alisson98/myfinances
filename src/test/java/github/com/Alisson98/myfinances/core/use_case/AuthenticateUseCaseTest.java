@@ -1,6 +1,5 @@
 package github.com.Alisson98.myfinances.core.use_case;
 
-import github.com.Alisson98.myfinances.adapter.web.exception.EmailAlreadyRegisteredException;
 import github.com.Alisson98.myfinances.adapter.web.exception.InvalidPasswordException;
 import github.com.Alisson98.myfinances.adapter.web.exception.ResourceNotFoundException;
 import github.com.Alisson98.myfinances.core.entities.User;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;

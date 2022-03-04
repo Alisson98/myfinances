@@ -28,8 +28,8 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<StandardErrorDto> invalidPasswordException(InvalidPasswordException e) {
         StandardErrorDto standardError = new StandardErrorDto(
-                HttpStatus.FORBIDDEN.value()
+                HttpStatus.BAD_REQUEST.value()
                 , e.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standardError);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
     }
 }

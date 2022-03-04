@@ -6,9 +6,11 @@ import github.com.Alisson98.myfinances.core.entities.User;
 import github.com.Alisson98.myfinances.core.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class AuthenticateUseCase {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticateUseCase.class);
 

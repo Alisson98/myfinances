@@ -1,6 +1,6 @@
 package github.com.Alisson98.myfinances.core.entities.enums;
 
-public enum ReleaseType {
+public enum EntryType {
     INCOME,
     EXPENSE
 }

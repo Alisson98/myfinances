@@ -1,6 +1,6 @@
 package github.com.Alisson98.myfinances.core.entities.enums;
 
-public enum ReleaseStatus {
+public enum EntryStatus {
     PENDING,
     CANCELLED,
     EFFECTED

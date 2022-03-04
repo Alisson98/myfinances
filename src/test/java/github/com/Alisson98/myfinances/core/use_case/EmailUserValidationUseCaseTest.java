@@ -33,7 +33,7 @@ class EmailUserValidationUseCaseTest {
         void shouldCallRepositoryCorrectly() {
             String mockedEmail = "email@mock.com";
 
-            when(userRepository.existsByEmail(mockedEmail)).thenReturn(true);
+            when(userRepository.existsByEmail(mockedEmail)).thenReturn(false);
 
             emailUserValidationUseCase.execute(mockedEmail);
 
@@ -44,7 +44,7 @@ class EmailUserValidationUseCaseTest {
         @DisplayName("should return an exception when email already registered")
         void shouldThrowAnException() {
             String mockedEmail = "email@mock.com";
-            when(userRepository.existsByEmail(mockedEmail)).thenReturn(false);
+            when(userRepository.existsByEmail(mockedEmail)).thenReturn(true);
 
             assertThrows(EmailAlreadyRegisteredException.class, () -> emailUserValidationUseCase.execute(mockedEmail));
         }
