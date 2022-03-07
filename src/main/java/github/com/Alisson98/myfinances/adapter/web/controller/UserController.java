@@ -49,7 +49,7 @@ public class UserController {
                 .body(userDtoMapper.userToUserDto(insertedUser));
     }
     @PostMapping("/login")
-    public ResponseEntity<UserDto> authenticateUser(@RequestBody LoginDto loginDto){
+    public ResponseEntity<UserDto> authenticateUser(@Valid @RequestBody LoginDto loginDto){
         logger.info("Received request to authenticate user");
         User user = getUserByEmailUseCase.execute(loginDto.getEmail());
         authenticateValidator.execute(user,loginDto.getPassword());
