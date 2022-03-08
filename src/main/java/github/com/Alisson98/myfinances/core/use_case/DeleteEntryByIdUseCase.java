@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class DeleteEntryUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(DeleteEntryUseCase.class);
+public class DeleteEntryByIdUseCase {
+    private static final Logger logger = LoggerFactory.getLogger(DeleteEntryByIdUseCase.class);
 
     private final EntryRepository entryRepository;
 
-    public DeleteEntryUseCase(EntryRepository entryRepository) {
+    public DeleteEntryByIdUseCase(EntryRepository entryRepository) {
         this.entryRepository = entryRepository;
     }
 
@@ -29,7 +29,7 @@ public class DeleteEntryUseCase {
 
             logger.warn("Assessment with questionId {} not found", entryId);
 
-            throw new ResourceNotFoundException("User  with id " + entryId + " not found");
+            throw new ResourceNotFoundException("Entry  with id " + entryId + " not found");
         }
     }
 }

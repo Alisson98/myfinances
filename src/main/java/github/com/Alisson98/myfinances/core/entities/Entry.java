@@ -61,4 +61,8 @@ public class Entry {
     public void setRegistrationDate(LocalDate registrationDate) {
        this.registrationDate = (registrationDate == null)? LocalDate.now(): registrationDate;
     }
+
+    public void setStatus(EntryStatus status){
+        this.status = (status == null)? EntryStatus.PENDING: status;
+    }
 }

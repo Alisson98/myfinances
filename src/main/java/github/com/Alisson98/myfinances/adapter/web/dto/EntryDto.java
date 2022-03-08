@@ -36,8 +36,6 @@ public class EntryDto {
     @NotBlank(message = "Should not be Blank")
     private String type;
 
-    @NotNull(message = "Should not be Null")
-    @NotBlank(message = "Should not be Blank")
     private String status;
 
     private LocalDate registrationDate;
