@@ -24,15 +24,15 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class GetUserByEmailUseCaseTest {
+class GetUserByIdUseCaseTest {
 
     @MockBean
     private UserRepository userRepository;
-    private GetUserByEmailUseCase getUserByEmailUseCase;
+    private GetUserByIdUseCase getUserByIdUseCase;
 
     @BeforeEach
     void setUp() {
-        getUserByEmailUseCase = new GetUserByEmailUseCase(userRepository);
+        getUserByIdUseCase = new GetUserByIdUseCase(userRepository);
     }
 
     @Nested
@@ -51,21 +51,21 @@ class GetUserByEmailUseCaseTest {
 
         @Test
         void shouldCallDependenciesCorrectly() {
-            String mockedEmail = "mockEmail";
+            Long mockedId = 1L;
             User mockedUser = new User();
-            when(userRepository.findByEmail(any())).thenReturn(Optional.of(mockedUser));
+            when(userRepository.findById(any())).thenReturn(Optional.of(mockedUser));
 
-            getUserByEmailUseCase.execute(mockedEmail);
+            getUserByIdUseCase.execute(mockedId);
 
-            verify(userRepository, times(1)).findByEmail(mockedEmail);
+            verify(userRepository, times(1)).findById(mockedId);
         }
 
         @ParameterizedTest(name = "when repository returns {0}")
         @MethodSource("provideUserFromRepository")
         void shouldReturnDataFromRepository(User mockedUser) {
-            when(userRepository.findByEmail(mockedUser.getEmail())).thenReturn(Optional.of(mockedUser));
+            when(userRepository.findById(mockedUser.getId())).thenReturn(Optional.of(mockedUser));
 
-            User result = getUserByEmailUseCase.execute(mockedUser.getEmail());
+            User result = getUserByIdUseCase.execute(mockedUser.getId());
             assertEquals(result, mockedUser);
         }
 
@@ -74,7 +74,7 @@ class GetUserByEmailUseCaseTest {
         void notFound() {
             when(userRepository.findById(any())).thenReturn(Optional.empty());
 
-            assertThrows(ResourceNotFoundException.class, () -> getUserByEmailUseCase.execute("someEmail"));
+            assertThrows(ResourceNotFoundException.class, () -> getUserByIdUseCase.execute(1L));
         }
     }
 

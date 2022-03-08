@@ -22,6 +22,6 @@ public class GetEntryByIdUseCase {
     public Entry execute (Long entryId) {
         logger.info("Fetching entry with id = {}...", entryId);
         Optional<Entry> entry = entryRepository.findById(entryId);
-        return entry.orElseThrow(() -> new ResourceNotFoundException("Resource with id %s not found".formatted(entryId)));
+        return entry.orElseThrow(() -> new ResourceNotFoundException("Entry with id %s not found".formatted(entryId)));
     }
 }

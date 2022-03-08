@@ -5,15 +5,14 @@ import github.com.Alisson98.myfinances.adapter.web.mapper.EntryDtoMapper;
 import github.com.Alisson98.myfinances.core.entities.Entry;
 import github.com.Alisson98.myfinances.core.entities.User;
 import github.com.Alisson98.myfinances.core.use_case.CreateEntryUseCase;
+import github.com.Alisson98.myfinances.core.use_case.GetEntryByIdUseCase;
 import github.com.Alisson98.myfinances.core.use_case.GetUserByIdUseCase;
+import github.com.Alisson98.myfinances.core.use_case.UpdateEntryUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,13 +23,19 @@ public class EntryController {
 
     private final CreateEntryUseCase createEntryUseCase;
     private final GetUserByIdUseCase getUserByIdUseCase;
+    private final GetEntryByIdUseCase getEntryByIdUseCase;
+    private final UpdateEntryUseCase updateEntryUseCase;
     private final EntryDtoMapper entryDtoMapper;
 
     public EntryController(CreateEntryUseCase createEntryUseCase,
                            GetUserByIdUseCase getUserByIdUseCase,
+                           GetEntryByIdUseCase getEntryByIdUseCase,
+                           UpdateEntryUseCase updateEntryUseCase,
                            EntryDtoMapper entryDtoMapper) {
         this.createEntryUseCase = createEntryUseCase;
         this.getUserByIdUseCase = getUserByIdUseCase;
+        this.getEntryByIdUseCase = getEntryByIdUseCase;
+        this.updateEntryUseCase = updateEntryUseCase;
         this.entryDtoMapper = entryDtoMapper;
     }
 
@@ -45,5 +50,20 @@ public class EntryController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(entryDtoMapper.mapEntityToDto(insertedEntry));
+    }
+
+    @PutMapping("/{entryId}")
+    public ResponseEntity<EntryDto> updateEntry(@PathVariable Long entryId, @RequestBody EntryDto entryDto){
+        logger.info("Received request to update entry");
+
+        getEntryByIdUseCase.execute(entryId);
+        User user = getUserByIdUseCase.execute(entryDto.getUserId());
+        Entry entry = entryDtoMapper.mapDtoToEntity(entryDto, user);
+        entry.setEntryId(entryId);
+        Entry updatedEntry = updateEntryUseCase.execute(entry);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(entryDtoMapper.mapEntityToDto(updatedEntry));
     }
 }

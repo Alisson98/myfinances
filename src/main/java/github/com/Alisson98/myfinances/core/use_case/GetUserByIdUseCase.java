@@ -22,6 +22,6 @@ public class GetUserByIdUseCase {
     public User execute (Long userID) {
         logger.info("Fetching user with id = {}...", userID);
         Optional<User> user = userRepository.findById(userID);
-        return user.orElseThrow(() -> new ResourceNotFoundException("Resource with id %s not found".formatted(userID)));
+        return user.orElseThrow(() -> new ResourceNotFoundException("User with id %s not found".formatted(userID)));
     }
 }

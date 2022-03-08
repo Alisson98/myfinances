@@ -29,7 +29,7 @@ public class DeleteEntryUseCase {
 
             logger.warn("Assessment with questionId {} not found", entryId);
 
-            throw new ResourceNotFoundException("Resource with id " + entryId + " not found");
+            throw new ResourceNotFoundException("User  with id " + entryId + " not found");
         }
     }
 }
